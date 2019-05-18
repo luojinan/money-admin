@@ -3,6 +3,9 @@ const express = require('express')
 const mongoose = require('mongoose')  // 引入数据库mongoose模块
 const keys = require('./config/keys') //引入配置常量
 
+// 引入服务器路由
+const users = require('./router/api/user')
+
 //实例化服务器(不用new？)
 const app = express()
 // 连接数据库
@@ -19,6 +22,9 @@ const port = process.env.PORT || 5000
 app.get('/',(req,res)=>{
   res.send('Hello World!')
 })
+
+// 使用路由中间件,路径的前面部分，结合上api文件定义的路径末端
+app.use('/api/users',users)
 
 // 配置服务器端口，传入端口变量和回调
 app.listen(port,()=>{
