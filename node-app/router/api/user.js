@@ -13,5 +13,14 @@ router.get("/test",(req,res)=>{
   res.json({msg:"测试接口返回一个json对象"})
 })
 
+/**
+ * $route   POST api/users/register
+ * @desc    注册接口，接受post数据，先测试返回post对象
+ * @access  public公开接口（是否需要token登录）
+ */
+router.post("/register",(req,res)=>{
+  res.json(req.body)  //postman测试接收到的post数据
+})
+
 // 暴露路由
 module.exports = router
