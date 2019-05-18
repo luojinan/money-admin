@@ -4,6 +4,8 @@ const router = express.Router()     //使用express的路由实例
 
 const bcrypt = require('bcrypt')    //引入加密模块（处理密码）在npm官网查看使用详情
 const gravatar = require('gravatar')  // 引入头像依赖
+const jwt = require('jsonwebtoken')   // 引入制作token的依赖
+const keys = require('../../config/keys')
 
 // 引入已连接的数据库表格
 const UserModel = require('./../../models/User.js')
@@ -54,6 +56,7 @@ router.post("/register",(req,res)=>{
             }
            })
 })
+
 /**
  * $route   POST api/users/login
  * @desc    登录接口 接收post数据，数据库判断是否存在/密码错误
@@ -69,7 +72,18 @@ router.post('/login',(req,res)=>{
     // 判断密码是否正确，bcrypt加密过数据库里的密码, (输入的密码，数据库查询后的密码)
     bcrypt.compare(password, user.password).then(isMatch =>{
       // 匹配输入密码与数据库密码一致为 true
-      if(isMatch) res.json({msg:'login success'}) 
+      if(isMatch){
+        // res.json({msg:'login success'})
+        // jwt.sign("规则","加密名字","过期时间","箭头函数")
+        const rult = {id:user.id, name:user.name} //规则：用于制作成唯一的tiken
+        jwt.sign(rult,keys.secretOrKey,{expiresIn:3600},(err,token)=>{
+          if(err) throw err
+          res.json({
+            success:true,
+            token: 'money'+token  // 加个项目名字
+          })
+        })
+      }
       else return res.status(400).json({password:'密码错误'})
     })
   })
