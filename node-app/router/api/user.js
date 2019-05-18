@@ -54,6 +54,26 @@ router.post("/register",(req,res)=>{
             }
            })
 })
+/**
+ * $route   POST api/users/login
+ * @desc    登录接口 接收post数据，数据库判断是否存在/密码错误
+ * @access  public公开接口（是否需要token登录）
+ */
+router.post('/login',(req,res)=>{
+  const email = req.body.email
+  const password = req.body.password
+  // {email} 是es6语法 相当于 { "email":email }
+  UserModel.findOne({email}).then(user=>{
+    // 判断用户是否存在
+    if(!user) return res.status(400).json({email:'用户不存在'})
+    // 判断密码是否正确，bcrypt加密过数据库里的密码, (输入的密码，数据库查询后的密码)
+    bcrypt.compare(password, user.password).then(isMatch =>{
+      // 匹配输入密码与数据库密码一致为 true
+      if(isMatch) res.json({msg:'login success'}) 
+      else return res.status(400).json({password:'密码错误'})
+    })
+  })
+})
 
 // 暴露路由
 module.exports = router
