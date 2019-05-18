@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser') //引入处理post对象的中间件
 const mongoose = require('mongoose')  // 引入数据库mongoose模块
 const keys = require('./config/keys') //引入配置常量
+const passport = require('passport')  //引入passport 解析token中间件
 
 // 引入服务器路由
 const users = require('./router/api/user')
@@ -22,6 +23,11 @@ const port = process.env.PORT || 5000
 //使用post中间件
 app.use(bodyParser.urlencoded({extended:false}))  //配置处理成对象
 app.use(bodyParser.json())
+
+// 使用passport中间件
+app.use(passport.initialize())
+// 配置possport的解析token方式，（抽象出去成一个方法）
+require('./config/passport')(passport)  // 把passport中间件模块传递进去，结合passport-jwt一起配置
 
 // 配置路由根路由测试
 app.get('/',(req,res)=>{

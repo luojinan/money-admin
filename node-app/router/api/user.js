@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')    //引入加密模块（处理密码）在npm
 const gravatar = require('gravatar')  // 引入头像依赖
 const jwt = require('jsonwebtoken')   // 引入制作token的依赖
 const keys = require('../../config/keys')
-
+const passport = require('passport')  //引入token解析依赖
 // 引入已连接的数据库表格
 const UserModel = require('./../../models/User.js')
 
@@ -80,12 +80,28 @@ router.post('/login',(req,res)=>{
           if(err) throw err
           res.json({
             success:true,
-            token: 'money'+token  // 加个项目名字
+            token: 'Bearer '+token  // token名字(写死)
           })
         })
       }
       else return res.status(400).json({password:'密码错误'})
     })
+  })
+})
+
+/**
+ * $route   GET api/users/current
+ * @desc    获取当前登录用户信息
+ * @access  public公开接口（是否需要token登录）
+ */
+// 路由方法（"末端路径",passport结合passport-jwt token依赖解析,回调函数）
+router.get("/current",passport.authenticate('jwt',{session:false}),(req,res)=>{
+  // res.json({msg:'解析token调用成功'})
+  // res.json(req.user)
+  res.json({
+    name:req.user.name,
+    email:req.user.email,
+    id:req.user.id
   })
 })
 
