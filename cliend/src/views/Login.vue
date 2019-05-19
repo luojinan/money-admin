@@ -168,7 +168,7 @@ export default {
         // 解析后的值存入vuex用户
         this.$store.dispatch('setUser',result)
 
-        this.$router.push('homepage')
+        this.$router.push('index')
       }else console.log('接口没有请求到或者没有数据')
     },
     async handleLogup() {

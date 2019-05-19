@@ -15,9 +15,9 @@ const router = new Router({
       name: 'login',
       component: () => import('./views/Login.vue')
     },{
-      path: '/homepage',
-      name: 'homepage',
-      component: () => import('./views/homepage/Homepage.vue')
+      path: '/index',
+      name: 'index',
+      component: () => import('./views/index.vue')
     },{
       path: '*',
       name: '404',
