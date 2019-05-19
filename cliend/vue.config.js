@@ -34,14 +34,14 @@ module.exports = {
         port: 8080,
         https: false,
         hotOnly: false,
-        proxy: null,
+        // proxy: null,
         proxy: {
             '/api': {
-                target: 'http://localhost:5000/api/',
+                target: 'http://localhost:5000/api',
                 ws: true,
                 changOrigin: true,
                 pathRewrite:{
-                  '^/api':''
+                  '^/api':'/'
                 }
             }
         },

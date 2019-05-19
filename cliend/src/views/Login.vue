@@ -100,12 +100,13 @@
 
 <script>
 import axios from 'axios'
+import {login,test} from '../api/login'
 export default {
   name: 'Login',
   data() {
     return {
-      islogin:false,
-      right:[{
+      islogin:true,       // 展示登录还是注册
+      right:[{            // 注册信息权限选择的数据
         label:'管理员',
         value:'manage'
       },{
@@ -148,12 +149,19 @@ export default {
       this.islogin = !this.islogin
     },
     async handleLogin() {
-      const res = await axios.post('/api/users/login',this.loginForm)
-      if (res) console.log(res)
-      else console.log('接口没有请求到或者没有数据')
+      console.log(this.loginForm)
+      const res = await login(this.loginForm)
+      // const res = await axios.post('api/users/login',this.loginForm)
+      if (res){
+        this.$message({
+          message: '登录成功',
+          type: 'success'
+        })
+        this.$router.push('homepage')
+      }else console.log('接口没有请求到或者没有数据')
     },
     async handleLogup() {
-      const res = await axios.post('/api/users/register',this.logupForm)
+      const res = await register(this.logupForm)
       if (res) console.log(res)
       else console.log('接口没有请求到或者没有数据')
     }

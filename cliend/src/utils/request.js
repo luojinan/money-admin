@@ -18,13 +18,13 @@ function endLoading(){
 
 
 // 创建axios实例
-const service = axios.create({
-  baseURL: "http://localhost:5000", // api 的 base_url
+const server = axios.create({
+  baseURL: "/api", // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
 
 // request拦截器
-service.interceptors.request.use(
+server.interceptors.request.use(
   config =>{
     startLoading()
     return config
@@ -35,7 +35,7 @@ service.interceptors.request.use(
 )
 
 // response 拦截器
-service.interceptors.response.use(
+server.interceptors.response.use(
   response => {
     endLoading()
     return response
@@ -45,3 +45,4 @@ service.interceptors.response.use(
     Message.error(err.response.data)
   }
 )
+export default server
