@@ -17,7 +17,16 @@ const router = new Router({
     },{
       path: '/index',
       name: 'index',
-      component: () => import('./views/index.vue')
+      component: () => import('./views/index.vue'),
+      children:[{
+        path: '/homepage',
+        name: 'homepage',
+        component: () => import('./views/homepage/Homepage.vue')
+      },{
+        path: '/userinfo',
+        name: 'userinfo',
+        component: () => import('./views/userinfo/Userinfo.vue')
+      }]
     },{
       path: '*',
       name: '404',

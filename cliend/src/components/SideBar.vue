@@ -16,7 +16,7 @@
         <!-- 有子项 -->
         <el-submenu v-else :index="item.path" :key="item.path">
           <template slot="title">{{item.name}}</template>
-          <el-menu-item v-for="(citem,cindex) in item.children" :key="cindex" :index="citem.path" @click="toRouter(item.path)">
+          <el-menu-item v-for="(citem,cindex) in item.children" :key="cindex" :index="citem.path" @click="toRouter(citem.path)">
             <span>{{citem.name}}</span>
           </el-menu-item>
         </el-submenu>
@@ -42,7 +42,7 @@ export default {
      },{
        name:'信息管理',
        path:'info',
-       children:[{name:'个人信息',path:'infoshow'}]
+       children:[{name:'个人信息',path:'userinfo'}]
      }]
    }
   },

@@ -57,7 +57,7 @@ export default {
       }
     },
     showInfoList(){
-      console.log('跳转个人信息页面')
+      this.$router.push('userinfo')
     },
     logout(){
       // 清除本地token

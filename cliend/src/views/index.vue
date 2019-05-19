@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="index">
     <head-nav></head-nav>
     <side-bar></side-bar>
-    主页
+    <router-view></router-view>
   </div>
 </template>
 
@@ -23,6 +23,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.index{
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
 </style>
