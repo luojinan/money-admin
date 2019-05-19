@@ -100,7 +100,7 @@
 
 <script>
 // import axios from 'axios'
-import {login,test} from '../api/login'
+import {login,register} from '../api/login'
 import jwtDecode from 'jwt-decode'      //引入解析token模块
 import {isEmpty} from '../utils/util'   //引入工具方法，判断值是否为空
 

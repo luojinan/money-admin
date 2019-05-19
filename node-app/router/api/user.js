@@ -40,7 +40,8 @@ router.post("/register",(req,res)=>{
                 name:req.body.name,
                 avatar,
                 email:req.body.email,
-                password:req.body.password
+                password:req.body.password,
+                right:req.body.right
               })
               // 对post数据的密码进行加密
               bcrypt.genSalt(10, function(err, salt) {
@@ -75,7 +76,7 @@ router.post('/login',(req,res)=>{
       if(isMatch){
         // res.json({msg:'login success'})
         // jwt.sign("规则","加密名字","过期时间","箭头函数")
-        const rult = {id:user.id, name:user.name} //规则：用于制作成唯一的tiken
+        const rult = {id:user.id, name:user.name,avatar:user.avatar} //规则：用于制作成唯一的tiken
         jwt.sign(rult,keys.secretOrKey,{expiresIn:3600},(err,token)=>{
           if(err) throw err
           res.json({
