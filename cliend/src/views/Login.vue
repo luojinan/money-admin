@@ -99,8 +99,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import {login,test} from '../api/login'
+import jwtDecode from 'jwt-decode'      //引入解析token模块
+import {isEmpty} from '../utils/util'   //引入工具方法，判断值是否为空
+
 export default {
   name: 'Login',
   data() {
@@ -138,7 +141,7 @@ export default {
     }
   },
   created() {
-    this.test()
+    
   },
   methods: {
     async test() {
@@ -158,6 +161,13 @@ export default {
           type: 'success'
         })
         localStorage.setItem('eleToken',res.data.token)
+        // 解析token获取用户信息，与后端解析一样
+        const result = jwtDecode(res.data.token)
+        // 判断是否登录，用解析后的值判断，并存入vuex专用判断登录状态字段
+        this.$store.dispatch('setAuthenticated',!isEmpty(result))
+        // 解析后的值存入vuex用户
+        this.$store.dispatch('setUser',result)
+
         this.$router.push('homepage')
       }else console.log('接口没有请求到或者没有数据')
     },
