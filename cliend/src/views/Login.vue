@@ -3,9 +3,9 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <h3 class="title">登录</h3>
       <!-- 输入框--用户名 -->
-      <el-form-item prop="username">
+      <el-form-item prop="email">
         <span class="svg-container">邮箱</span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username" />
+        <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" placeholder="email" />
       </el-form-item>
       <!-- 输入框--密码 -->
       <el-form-item prop="password">
@@ -29,7 +29,7 @@
         </el-button>
       </el-form-item>
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
+        <span style="margin-right:20px;">email: admin</span>
         <span> password: admin</span>
       </div>
     </el-form>
@@ -37,17 +37,17 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'Login',
   data() {
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        email: 'test@test.com',
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: '' }],
+        email: [{ required: true, trigger: 'blur', validator: '' }],
         password: [{ required: true, trigger: 'blur', validator: '' }]
       },
       loading: false,
@@ -63,7 +63,10 @@ export default {
     },
     showPwd() {
     },
-    handleLogin() {
+    async handleLogin() {
+      const res = await axios.post('/api/users/login',this.loginForm)
+      if (res) console.log(res)
+      else console.log('接口没有请求到或者没有数据')
     }
   }
 }
