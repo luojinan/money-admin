@@ -1,6 +1,6 @@
 笔记目录：
 [1.创建服务器项目](https://app.yinxiang.com/shard/s11/nl/18783918/ade5efc8-3202-4ef2-a4d3-83d6397a059d)
-
+[2.创建前端项目](https://app.yinxiang.com/shard/s11/nl/18783918/84a7aec9-8c50-43ba-bfc4-dde6fc6a6a63)
 
 重点难点
 > 服务器项目创建结构

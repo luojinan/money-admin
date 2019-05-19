@@ -1,6 +1,7 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <!-- 登录表单 -->
+    <el-form ref="loginForm" v-show="islogin" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <h3 class="title">登录</h3>
       <!-- 输入框--用户名 -->
       <el-form-item prop="email">
@@ -25,14 +26,75 @@
       <!-- 登录按钮 -->
       <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          Sign in
+          登录
         </el-button>
       </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">email: admin</span>
-        <span> password: admin</span>
-      </div>
     </el-form>
+    <!-- 注册表单 -->
+    <el-form ref="logupForm" v-show="!islogin" :model="logupForm" :rules="logupRules" class="login-form" auto-complete="on" label-position="left">
+      <h3 class="title">注册</h3>
+      <!-- 输入框--邮箱 -->
+      <el-form-item prop="email">
+        <span class="svg-container">邮箱</span>
+        <el-input v-model="logupForm.email" name="email" type="text" auto-complete="on" placeholder="email" />
+      </el-form-item>
+      <!-- 输入框--密码 -->
+      <el-form-item prop="password">
+        <span class="svg-container">密码</span>
+        <el-input
+          :type="pwdType"
+          v-model="logupForm.password"
+          name="password"
+          auto-complete="on"
+          placeholder="password"
+          @keyup.enter.native="handleLogup" />
+        <span class="show-pwd" @click="showPwd">
+          眼睛
+          <!-- <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" /> -->
+        </span>
+      </el-form-item>
+      <!-- 输入框--确认密码 -->
+      <el-form-item prop="password">
+        <span class="svg-container">确认密码</span>
+        <el-input
+          :type="pwdType"
+          v-model="logupForm.surePassword"
+          name="password"
+          auto-complete="on"
+          placeholder="password" />
+        <span class="show-pwd" @click="showPwd">
+          眼睛
+          <!-- <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" /> -->
+        </span>
+      </el-form-item>
+      <!-- 输入框--用户名 -->
+      <el-form-item prop="name">
+        <span class="svg-container">昵称</span>
+        <el-input v-model="logupForm.name" name="name" type="text" auto-complete="on" placeholder="name" />
+      </el-form-item>
+      <!-- 选择框--权限 -->
+      <el-form-item prop="right">
+      <el-select v-model="logupForm.right" placeholder="请选择">
+        <el-option
+          v-for="item in right"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      </el-form-item>
+      <!-- 注册按钮 -->
+      <el-form-item>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogup">
+          注册
+        </el-button>
+      </el-form-item>
+    </el-form>
+    <div class="tips">
+      <el-button type="primary" @click="showLogin">
+        {{islogin?'去注册':'去登录'}}
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -42,11 +104,30 @@ export default {
   name: 'Login',
   data() {
     return {
+      islogin:false,
+      right:[{
+        label:'管理员',
+        value:'manage'
+      },{
+        label:'普通用户',
+        value:'user'
+      }],
       loginForm: {
         email: 'test@test.com',
         password: '123456'
       },
+      logupForm: {
+        email: 'test@test.com',
+        password: '123456',
+        name:'',
+        surePassword:'123456',
+        right:''
+      },
       loginRules: {
+        email: [{ required: true, trigger: 'blur', validator: '' }],
+        password: [{ required: true, trigger: 'blur', validator: '' }]
+      },
+      logupRules: {
         email: [{ required: true, trigger: 'blur', validator: '' }],
         password: [{ required: true, trigger: 'blur', validator: '' }]
       },
@@ -63,8 +144,16 @@ export default {
     },
     showPwd() {
     },
+    showLogin(){
+      this.islogin = !this.islogin
+    },
     async handleLogin() {
       const res = await axios.post('/api/users/login',this.loginForm)
+      if (res) console.log(res)
+      else console.log('接口没有请求到或者没有数据')
+    },
+    async handleLogup() {
+      const res = await axios.post('/api/users/register',this.logupForm)
       if (res) console.log(res)
       else console.log('接口没有请求到或者没有数据')
     }
@@ -100,6 +189,12 @@ $light_gray:#eee;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+    .el-select{
+      width: 100%;
+      .el-input{
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -123,20 +218,14 @@ $light_gray:#eee;
     margin: 120px auto;
   }
   .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 10px 0 0;
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
-    width: 30px;
     display: inline-block;
   }
   .title {

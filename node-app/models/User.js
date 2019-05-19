@@ -5,15 +5,19 @@ const mongoose = require('mongoose')  // 引入mongoose模块
 const UserSchema = mongoose.Schema({
   name:{
     type:String,
-    require:true
+    required:true
   },
   email:{
     type:String,
-    require:true
+    required:true
   },
   password:{
     type:String,
-    require:true
+    required:true
+  },
+  right:{
+    type:String,
+    required:true
   },
   avatar:{
     type:String
