@@ -157,6 +157,7 @@ export default {
           message: '登录成功',
           type: 'success'
         })
+        localStorage.setItem('eleToken',res.data.token)
         this.$router.push('homepage')
       }else console.log('接口没有请求到或者没有数据')
     },
