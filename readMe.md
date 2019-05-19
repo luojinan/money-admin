@@ -21,6 +21,9 @@ const server = axios.create({
 ```
 这里的`baseURL`不能设置成服务器全称地址`http://localhost:5000/api`
 代理配置之后所有用到这个地址的地方都直接用`/api`
+
+> 请求拦截，登录状态时设置请求头，并配置失效的响应
+
 > 前端解析token，用户信息存入本地并存入vuex
 
 > 前端侧边栏
