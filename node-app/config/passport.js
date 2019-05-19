@@ -9,7 +9,6 @@ const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = keys.secretOrKey
 
-
 module.exports = (passport)=>{
   passport.use(new JwtStrategy(opts, (jwt_payload, done)=>{
     // console.log(jwt_payload)  //jwt_payload就是解析token后的值，id和name
@@ -21,3 +20,6 @@ module.exports = (passport)=>{
     }).catch(err=>console.log(err))
   }))
 }
+
+
+
