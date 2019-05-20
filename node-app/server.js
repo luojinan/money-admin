@@ -7,6 +7,7 @@ const passport = require('passport')  //引入passport 解析token中间件
 
 // 引入服务器路由
 const users = require('./router/api/user')
+const money = require('./router/api/money')
 
 //实例化服务器(不用new？)
 const app = express()
@@ -36,7 +37,7 @@ app.get('/',(req,res)=>{
 
 // 使用路由中间件,路径的前面部分，结合上api文件定义的路径末端
 app.use('/api/users',users)
-
+app.use('/api/money',money)
 // 配置服务器端口，传入端口变量和回调
 app.listen(port,()=>{
   console.log(`Server running on port ${port}`)
