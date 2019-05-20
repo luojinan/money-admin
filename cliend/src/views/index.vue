@@ -2,7 +2,9 @@
   <div class="index">
     <head-nav></head-nav>
     <side-bar></side-bar>
-    <router-view></router-view>
+    <div class="rightContainer">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -28,5 +30,13 @@ export default {
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
+  .rightContainer{
+    position:relative;
+    top: 0;
+    left: 180px;
+    width: calc(100%-180px);
+    height: calc(100%-71px);
+    overflow: hidden;
+  }
 }
 </style>
