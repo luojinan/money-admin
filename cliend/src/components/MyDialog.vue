@@ -40,19 +40,11 @@ import {addMoneyFlow,editMoneyFlow} from '../api/money'
 export default {
   name:'MyDialog',
   props:{
-    dialog:Object
+    dialog:Object,
+    formData:Object
   },
   data(){
    return {
-     formData:{
-       type:'',
-       describe:'',
-       incode:'',
-       expend:'',
-       cash:'',
-       remark:'',
-       id:''
-     },
      formatTypeList:['提现','提现手续费','充值','优惠券','充值礼券','转账'],
      formRules:{
        type:[{required:true,message:'收支类型不能为空',trigger:'blur'}],
@@ -68,17 +60,29 @@ export default {
       // 这种形式，element-ui通过rules判断是否可以提交，value是true/false
       this.$refs[form].validate(value=>{
         if(value){
-          addMoneyFlow(this.formData).then(res=>{
-            this.$message({
-              message:'数据添加成功',
-              type:'success'
-            })
-            this.dialog.show = false  // 关闭弹窗
-            this.$emit('update')      // 父组件刷新页面
-          })
+          if(this.dialog.option == 'add') this.add()
+          else this.edit()
+          this.dialog.show = false  // 关闭弹窗
+          this.$emit('update')      // 父组件刷新页面
         }
       })
-      // console.log(this.formData)
+    },
+    add(){
+      console.log('add')
+      addMoneyFlow(this.formData).then(res=>{
+        this.$message({
+          message:'数据添加成功',
+          type:'success'
+        })
+      })
+    },
+    edit(){
+      editMoneyFlow(this.formData._id,this.formData).then(res=>{
+        this.$message({
+          message:'数据修改成功',
+          type:'success'
+        })
+      })
     }
   }
 }

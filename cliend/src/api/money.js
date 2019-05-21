@@ -22,9 +22,9 @@ export function deleteMoneyFlow(){
   })
 }
 
-export function editMoneyFlow(data){
+export function editMoneyFlow(id,data){
   return request({
-    url:'/money/edit/:id',
+    url:`/money/edit/${id}`,
     method: 'post',
     data
   })

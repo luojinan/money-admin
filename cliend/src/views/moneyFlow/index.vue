@@ -89,7 +89,7 @@
     </el-table-column>
   </el-table>
 
-  <my-dialog :dialog="dialog" @update="getData"></my-dialog>
+  <my-dialog :dialog="dialog" :formData="formData" @update="getData"></my-dialog>
   </div>
 </template>
 
@@ -104,6 +104,7 @@ export default {
   data(){
    return {
      tableData:'',
+     formData:{},
      dialog:{
        show:false
        }
@@ -119,10 +120,29 @@ export default {
     },
     handleAdd(){
       console.log('添加')
-      this.dialog.show=true
+
+      this.dialog={
+        show:true,
+        title:'添加资金信息',
+        option:'add'
+      }
+      this.formData={
+        type:'',
+        describe:'',
+        incode:'',
+        expend:'',
+        cash:'',
+        remark:'',
+        id:''
+      }
     },
     handleEdit(row){
-      console.log(row)
+      this.dialog={
+        show:true,
+        title:'编辑资金信息',
+        option:'edit'
+      }
+      this.formData=row
     },
     handleDelete(row){
       console.log(row)
