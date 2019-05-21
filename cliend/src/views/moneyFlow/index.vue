@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import {getMoneyFlow} from '../../api/money'
+import {getMoneyFlow,deleteMoneyFlow} from '../../api/money'
 import MyDialog from '../../components/MyDialog'
 export default {
   name:'MoneyFlow',
@@ -144,8 +144,15 @@ export default {
       }
       this.formData=row
     },
-    handleDelete(row){
+    async handleDelete(row){
       console.log(row)
+      const res = await deleteMoneyFlow(row._id)
+      if(res.data){
+        this.$message({
+          message:'删除数据成功',
+          type:'success'
+        })
+      }
     }
   }
 }

@@ -15,9 +15,9 @@ export function addMoneyFlow(data){
   })
 }
 
-export function deleteMoneyFlow(){
+export function deleteMoneyFlow(id){
   return request({
-    url:'/money/delete/:id',
+    url:`/money/delete/${id}`,
     method: 'delete'
   })
 }
