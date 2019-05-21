@@ -38,7 +38,7 @@ export default {
      },{
        name:'资金管理',
        path:'fund',
-       children:[{name:'资金流水',path:'fundlist'}]
+       children:[{name:'资金流水',path:'moneyFlow'}]
      },{
        name:'信息管理',
        path:'info',

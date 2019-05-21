@@ -34,8 +34,8 @@ export default {
     position:relative;
     top: 0;
     left: 180px;
-    width: calc(100%-180px);
-    height: calc(100%-71px);
+    width: calc(100% - 180px);
+    height: calc(100% - 71px);
     overflow: hidden;
   }
 }

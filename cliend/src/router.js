@@ -26,6 +26,10 @@ const router = new Router({
         path: '/userinfo',
         name: 'userinfo',
         component: () => import('./views/userinfo/Userinfo.vue')
+      },{
+        path: '/moneyFlow',
+        name: 'moneyFlow',
+        component: () => import('./views/moneyFlow/index.vue')
       }]
     },{
       path: '*',

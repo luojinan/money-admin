@@ -29,7 +29,7 @@ const MoneySchema = mongoose.Schema({
   remark:{
     type:String
   },
-  data:{
+  date:{
     type:Date,
     default:Date.now
   }
