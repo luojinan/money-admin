@@ -6,3 +6,26 @@ export function getMoneyFlow(){
     method: 'get'
   })
 }
+
+export function addMoneyFlow(data){
+  return request({
+    url:'/money/addMoney',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteMoneyFlow(){
+  return request({
+    url:'/money/delete/:id',
+    method: 'delete'
+  })
+}
+
+export function editMoneyFlow(data){
+  return request({
+    url:'/money/edit/:id',
+    method: 'post',
+    data
+  })
+}

@@ -89,7 +89,7 @@
     </el-table-column>
   </el-table>
 
-  <my-dialog :dialog="dialog"></my-dialog>
+  <my-dialog :dialog="dialog" @update="getData"></my-dialog>
   </div>
 </template>
 

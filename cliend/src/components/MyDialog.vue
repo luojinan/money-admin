@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {addMoneyFlow,editMoneyFlow} from '../api/money' 
 export default {
   name:'MyDialog',
   props:{
@@ -66,7 +67,16 @@ export default {
     onSubmit(form){
       // 这种形式，element-ui通过rules判断是否可以提交，value是true/false
       this.$refs[form].validate(value=>{
-        if(value) console.log(this.formData)
+        if(value){
+          addMoneyFlow(this.formData).then(res=>{
+            this.$message({
+              message:'数据添加成功',
+              type:'success'
+            })
+            this.dialog.show = false  // 关闭弹窗
+            this.$emit('update')      // 父组件刷新页面
+          })
+        }
       })
       // console.log(this.formData)
     }
