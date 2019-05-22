@@ -1,7 +1,16 @@
 <template>
   <div class="money-flow">
-    <!-- 添加按钮 -->
-    <el-form :inline="true" ref="add_data">
+    <el-form :inline="true" ref="add_data" :model="searchData">
+      <!-- 筛选部分 -->
+      <el-form-item label="请选择时间区间">
+        <el-date-picker v-model="searchData.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>
+        --
+        <el-date-picker v-model="searchData.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" size="small" icon="view" @click="handleSearch()">筛选</el-button>
+      </el-form-item>
+      <!-- 添加按钮 -->
       <el-form-item class="btn-right">
         <el-button type="primary" size="small" icon="view" @click="handleAdd()">添加</el-button>
       </el-form-item>
@@ -118,7 +127,12 @@ export default {
   data(){
    return {
      allTableData:[],
+     beforSearchData:[],
      tableData:[],
+     searchData:{
+       startTime:'',
+       endTime:''
+     },
      formData:{},
      dialog:{},
      page:{
@@ -135,6 +149,7 @@ export default {
     async getData(){
       const res = await getMoneyFlow()
       this.allTableData = res.data
+      this.beforSearchData = res.data
       this.setTableData()
     },
     setTableData(){
@@ -146,6 +161,22 @@ export default {
       this.tableData = this.allTableData.filter((item,index)=>{
         return index<this.page.size
       })
+    },
+    handleSearch(){
+      console.log(this.searchData.startTime)
+      if(!this.searchData.startTime || !this.searchData.endTime){
+        this.$message({type:'warning',message:'请选择时间'}) 
+        return 
+      }
+      const sTime = this.searchData.startTime.getTime()
+      const eTime = this.searchData.endTime.getTime()
+
+      this.allTableData = this.beforSearchData.filter(item=>{
+        let date = new Date(item.date)
+        let time = date.getTime()
+        return time >= sTime && time <=eTime
+      })
+      this.setTableData()
     },
     handleAdd(){
       console.log('添加')
@@ -187,7 +218,7 @@ export default {
     handleSizeChange(page_size){
       this.page.index = 1,
       this.page.size = page_size,
-      this.tableData = this.allTableData,filter((item,index)=>{
+      this.tableData = this.allTableData.filter((item,index)=>{
         return index<page_size
       })
     },
