@@ -9,6 +9,7 @@
       <el-col :span="16">
         <div class="userinfo">
           用户名：{{user.name}}
+          身份：{{user.right}}
           ...
         </div>
       </el-col>

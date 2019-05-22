@@ -12,7 +12,7 @@
       </el-form-item>
       <!-- 添加按钮 -->
       <el-form-item class="btn-right">
-        <el-button type="primary" size="small" icon="view" @click="handleAdd()">添加</el-button>
+        <el-button v-if="user.right == 'manager'" type="primary" size="small" icon="view" @click="handleAdd()">添加</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -82,6 +82,7 @@
       label="操作"
       align="center"
       width="180"
+      v-if="user.right == 'manager'"
       fixed="right">
       <template slot-scope="scope">
         <el-button
@@ -123,6 +124,11 @@ export default {
   name:'MoneyFlow',
   components:{
     MyDialog
+  },
+  computed:{
+    user(){
+      return this.$store.getters.user
+    }
   },
   data(){
    return {
