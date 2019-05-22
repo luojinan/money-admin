@@ -88,7 +88,21 @@
       </template>
     </el-table-column>
   </el-table>
-
+  <el-row>
+    <el-col :span="24">
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page.index"
+          :page-sizes="[5, 10, 15, 20]"
+          :page-size="page.size"
+          layout="total,sizes,prev,pager,next,jumper"
+          :total="page.total">
+        </el-pagination>
+      </div>
+    </el-col>
+  </el-row>
   <my-dialog :dialog="dialog" :formData="formData" @update="getData"></my-dialog>
   </div>
 </template>
@@ -103,11 +117,15 @@ export default {
   },
   data(){
    return {
-     tableData:'',
+     allTableData:[],
+     tableData:[],
      formData:{},
-     dialog:{
-       show:false
-       }
+     dialog:{},
+     page:{
+       index:1,
+       total:0,
+       size:5
+     }
    }
   },
   created(){
@@ -116,7 +134,18 @@ export default {
   methods:{
     async getData(){
       const res = await getMoneyFlow()
-      this.tableData = res.data
+      this.allTableData = res.data
+      this.setTableData()
+    },
+    setTableData(){
+      this.page = {
+        index:1,
+        size:5,
+        total:this.allTableData.length
+      }
+      this.tableData = this.allTableData.filter((item,index)=>{
+        return index<this.page.size
+      })
     },
     handleAdd(){
       console.log('添加')
@@ -153,6 +182,26 @@ export default {
           type:'success'
         })
       }
+    },
+    // 组件自带参数--点击要更改成一页显示多少的size
+    handleSizeChange(page_size){
+      this.page.index = 1,
+      this.page.size = page_size,
+      this.tableData = this.allTableData,filter((item,index)=>{
+        return index<page_size
+      })
+    },
+    // 组件自带参数--点击要切换到第几页的index
+    handleCurrentChange(page){
+      // 获取当前页最后一个数据的序列
+      let index = this.page.size*(page-1)
+      // 获取总数
+      let nums = this.page.size*page
+      let tables = []
+      for(let i = index;i<nums;i++){
+        if(this.allTableData[i]) tables.push(this.allTableData[i])
+      }
+      this.tableData = tables
     }
   }
 }
@@ -165,6 +214,10 @@ export default {
   padding: 10px;
   .btn-right{
     float:right;
+  }
+  .pagination{
+    margin-top: 10px;
+    float: right;
   }
 }
 </style>

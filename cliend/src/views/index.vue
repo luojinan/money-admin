@@ -27,6 +27,7 @@ export default {
 
 <style scoped lang="scss">
 .index{
+  position: relative;
   min-height: 100vh;
   width: 100%;
   overflow: hidden;

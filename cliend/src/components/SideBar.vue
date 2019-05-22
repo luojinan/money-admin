@@ -56,7 +56,7 @@ export default {
 
 <style scoped lang="scss">
 .side-bar{
-  position: fixed;
+  position: absolute;
   top: 71px;
   left: 0;
   min-height: 100%;
